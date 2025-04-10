@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+        input {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .links {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+        .links a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+        .links a:hover {
+            text-decoration: underline;
+        }
+        .dashboard {
+            text-align: center;
+            padding: 20px;
+        }
+        .dashboard h1 {
+            margin-bottom: 30px;
+        }
+        .admin-panel {
+            margin-top: 30px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+        .admin-panel h2 {
+            color: #333;
+        }
+        .user-list {
+            text-align: left;
+            margin: 20px 0;
+        }
+        .user-list div {
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+        }
+        .user-list div:last-child {
+            border-bottom: none;
+        }
+        .logout {
+            margin-top: 20px;
+        }
+        .hidden {
+            display: none;
+        }
+        .error {
+            color: red;
+            margin-bottom: 10px;
+        }
+        .success {
+            color: green;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="app">
+
+        <div id="loginForm">
+            <h1>Login</h1>
+            <div id="loginError" class="error hidden"></div>
+            <form id="login-form">
+                <label for="username">Username</label>
+                <input type="text" id="username" required>
+                
+                <label for="password">Password</label>
+                <input type="password" id="password" required>
+                
+                <button type="submit">Login</button>
+            </form>
+            <div class="links">
+                <a href="#" id="showRegister">Register</a>
+                <a href="#" id="showAdminLogin">Admin Login</a>
+            </div>
+        </div>
+
+
+        <div id="registerForm" class="hidden">
+            <h1>Register</h1>
+            <div id="registerError" class="error hidden"></div>
+            <div id="registerSuccess" class="success hidden"></div>
+            <form id="register-form">
+                <label for="reg-username">Username</label>
+                <input type="text" id="reg-username" required>
+                
+                <label for="reg-password">Password</label>
+                <input type="password" id="reg-password" required>
+                
+                <label for="reg-confirm-password">Confirm Password</label>
+                <input type="password" id="reg-confirm-password" required>
+                
+                <button type="submit">Register</button>
+            </form>
+            <div class="links">
+                <a href="#" id="showLogin">Back to Login</a>
+            </div>
+        </div>
+
+
+        <div id="adminLoginForm" class="hidden">
+            <h1>Admin Login</h1>
+            <div id="adminLoginError" class="error hidden"></div>
+            <form id="admin-login-form">
+                <label for="admin-username">Admin Username</label>
+                <input type="text" id="admin-username" required>
+                
+                <label for="admin-password">Admin Password</label>
+                <input type="password" id="admin-password" required>
+                
+                <button type="submit">Login as Admin</button>
+            </form>
+            <div class="links">
+                <a href="#" id="showLoginFromAdmin">Back to User Login</a>
+            </div>
+        </div>
+
+
+        <div id="userDashboard" class="hidden dashboard">
+            <h1 id="welcomeMessage"></h1>
+            <p>This is your personal dashboard.</p>
+            <button id="userLogout" class="logout">Logout</button>
+        </div>
+
+
+        <div id="adminDashboard" class="hidden dashboard">
+            <h1 id="adminWelcomeMessage"></h1>
+            <p>This is the admin control panel.</p>
+            
+            <div class="admin-panel">
+                <h2>Add New User</h2>
+                <div id="addUserError" class="error hidden"></div>
+                <div id="addUserSuccess" class="success hidden"></div>
+                <form id="add-user-form">
+                    <label for="new-username">Username</label>
+                    <input type="text" id="new-username" required>
+                    
+                    <label for="new-password">Password</label>
+                    <input type="password" id="new-password" required>
+                    
+                    <button type="submit">Add User</button>
+                </form>
+            </div>
+            
+            <div class="admin-panel">
+                <h2>User List</h2>
+                <div id="userList" class="user-list">
+
+                </div>
+            </div>
+            
+            <button id="adminLogout" class="logout">Logout</button>
+        </div>
+    </div>
+
+    <script>
+        const users = [
+            { username: 'user', password: 'user' }
+        ];
+        
+        const admin = { username: 'admin', password: 'admin' };
+        
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const adminLoginForm = document.getElementById('adminLoginForm');
+        const userDashboard = document.getElementById('userDashboard');
+        const adminDashboard = document.getElementById('adminDashboard');
+        
+        const welcomeMessage = document.getElementById('welcomeMessage');
+        const adminWelcomeMessage = document.getElementById('adminWelcomeMessage');
+        const userList = document.getElementById('userList');
+        
+        const loginError = document.getElementById('loginError');
+        const registerError = document.getElementById('registerError');
+        const registerSuccess = document.getElementById('registerSuccess');
+        const adminLoginError = document.getElementById('adminLoginError');
+        const addUserError = document.getElementById('addUserError');
+        const addUserSuccess = document.getElementById('addUserSuccess');
+        
+        function showElement(element) {
+            element.classList.remove('hidden');
+        }
+        
+        function hideElement(element) {
+            element.classList.add('hidden');
+        }
+        
+        function showLogin() {
+            hideElement(registerForm);
+            hideElement(adminLoginForm);
+            hideElement(userDashboard);
+            hideElement(adminDashboard);
+            showElement(loginForm);
+        }
+        
+        function showRegister() {
+            hideElement(loginForm);
+            hideElement(adminLoginForm);
+            hideElement(userDashboard);
+            hideElement(adminDashboard);
+            showElement(registerForm);
+        }
+        
+        function showAdminLogin() {
+            hideElement(loginForm);
+            hideElement(registerForm);
+            hideElement(userDashboard);
+            hideElement(adminDashboard);
+            showElement(adminLoginForm);
+        }
+        
+        function showUserDashboard(username) {
+            hideElement(loginForm);
+            hideElement(registerForm);
+            hideElement(adminLoginForm);
+            hideElement(adminDashboard);
+            welcomeMessage.textContent = `Welcome ${username}`;
+            showElement(userDashboard);
+        }
+        
+        function showAdminDashboard() {
+            hideElement(loginForm);
+            hideElement(registerForm);
+            hideElement(adminLoginForm);
+            hideElement(userDashboard);
+            adminWelcomeMessage.textContent = 'Welcome back my creator';
+            renderUserList();
+            showElement(adminDashboard);
+        }
+        
+        document.getElementById('showRegister').addEventListener('click', function(e) {
+            e.preventDefault();
+            showRegister();
+        });
+        
+        document.getElementById('showLogin').addEventListener('click', function(e) {
+            e.preventDefault();
+            showLogin();
+        });
+        
+        document.getElementById('showAdminLogin').addEventListener('click', function(e) {
+            e.preventDefault();
+            showAdminLogin();
+        });
+        
+        document.getElementById('showLoginFromAdmin').addEventListener('click', function(e) {
+            e.preventDefault();
+            showLogin();
+        });
+        
+        document.getElementById('userLogout').addEventListener('click', function() {
+            showLogin();
+        });
+        
+        document.getElementById('adminLogout').addEventListener('click', function() {
+            showLogin();
+        });
+        
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            const user = users.find(u => u.username === username && u.password === password);
+            
+            if (user) {
+                showUserDashboard(username);
+                document.getElementById('username').value = '';
+                document.getElementById('password').value = '';
+                hideElement(loginError);
+            } else {
+                loginError.textContent = 'Invalid username or password';
+                showElement(loginError);
+            }
+        });
+        
+        document.getElementById('register-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('reg-username').value;
+            const password = document.getElementById('reg-password').value;
+            const confirmPassword = document.getElementById('reg-confirm-password').value;
+            
+            if (users.some(u => u.username === username) || username === admin.username) {
+                registerError.textContent = 'Username already exists';
+                showElement(registerError);
+                hideElement(registerSuccess);
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                registerError.textContent = 'Passwords do not match';
+                showElement(registerError);
+                hideElement(registerSuccess);
+                return;
+            }
+            
+            users.push({ username, password });
+            
+            document.getElementById('reg-username').value = '';
+            document.getElementById('reg-password').value = '';
+            document.getElementById('reg-confirm-password').value = '';
+            
+            hideElement(registerError);
+            registerSuccess.textContent = 'Registration successful! You can now login.';
+            showElement(registerSuccess);
+            
+            setTimeout(showLogin, 2000);
+        });
+        
+        document.getElementById('admin-login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('admin-username').value;
+            const password = document.getElementById('admin-password').value;
+            
+            if (username === admin.username && password === admin.password) {
+                showAdminDashboard();
+                document.getElementById('admin-username').value = '';
+                document.getElementById('admin-password').value = '';
+                hideElement(adminLoginError);
+            } else {
+                adminLoginError.textContent = 'Invalid admin credentials';
+                showElement(adminLoginError);
+            }
+        });
+        
+        document.getElementById('add-user-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('new-username').value;
+            const password = document.getElementById('new-password').value;
+            
+            if (users.some(u => u.username === username) || username === admin.username) {
+                addUserError.textContent = 'Username already exists';
+                showElement(addUserError);
+                hideElement(addUserSuccess);
+                return;
+            }
+            
+            users.push({ username, password });
+            
+            document.getElementById('new-username').value = '';
+            document.getElementById('new-password').value = '';
+            
+            hideElement(addUserError);
+            addUserSuccess.textContent = 'User added successfully';
+            showElement(addUserSuccess);
+            
+            renderUserList();
+            
+            setTimeout(function() {
+                hideElement(addUserSuccess);
+            }, 3000);
+        });
+        
+        function renderUserList() {
+            userList.innerHTML = '';
+            
+            users.forEach(user => {
+                const userDiv = document.createElement('div');
+                userDiv.textContent = user.username;
+                userList.appendChild(userDiv);
+            });
+        }
+        
+        showLogin();
+    </script>
+</body>
+</html>
