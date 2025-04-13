@@ -278,21 +278,13 @@
                 </div>
                 <div class="form-group">
                     <label>Email:</label>
-                    <input type="email" id="profile-email" value="lalheen@gmail.com">
+                    <input type="email" id="profile-email" value="lalheen@gmail.com" disabled>
                 </div>
                 <div class="form-group">
                     <label>Username:</label>
                     <input type="text" id="profile-username" value="joshua dako it pusoy" disabled>
                 </div>
-                <div class="form-group">
-                    <label>New Password:</label>
-                    <input type="password" id="profile-password">
-                </div>
-                <div class="form-group">
-                    <label>Confirm New Password:</label>
-                    <input type="password" id="profile-confirm-password">
-                </div>
-                <button type="button" onclick="updateProfile()">Update Profile</button>
+                <!-- Update Profile button removed -->
             </div>
         </div>
         <button type="button" onclick="logout()" style="background-color: #e74c3c;">Logout</button>
@@ -658,29 +650,6 @@
             document.getElementById('password').value = '';
             
             showLoginPage();
-        }
-        
-        // Student Functions
-        function updateProfile() {
-            var email = document.getElementById('profile-email').value;
-            var password = document.getElementById('profile-password').value;
-            var confirmPassword = document.getElementById('profile-confirm-password').value;
-            
-            if (email) {
-                if (password) {
-                    if (password === confirmPassword) {
-                        // In a real system, this would update the database
-                        alert('Profile updated successfully');
-                    } else {
-                        alert('Passwords do not match');
-                    }
-                } else {
-                    // Just updating email
-                    alert('Email updated successfully');
-                }
-            } else {
-                alert('Email cannot be empty');
-            }
         }
         
         // Admin Functions
