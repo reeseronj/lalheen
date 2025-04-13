@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Attendance System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background-color: #3498db;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        .link {
+            display: block;
+            margin-top: 15px;
+            color: #3498db;
+            text-decoration: none;
+        }
+        
+        .link:hover {
+            text-decoration: underline;
+        }
+        
+        .tab-buttons {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        .tab-button {
+            background-color: #f5f5f5;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            flex: 1;
+            border-bottom: 2px solid #ddd;
+        }
+        
+        .tab-button.active {
+            background-color: white;
+            border-bottom: 2px solid #3498db;
+            color: #3498db;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #f5f5f5;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .attendance-present {
+            color: green;
+        }
+        
+        .attendance-absent {
+            color: red;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="login-page" class="container">
+        <div class="header">
+            <h1>Student Attendance System</h1>
+        </div>
+        <div class="card">
+            <h2 style="margin-bottom: 20px;">Login</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="user-type">Login As:</label>
+                    <select id="user-type">
+                        <option value="student">Student</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+                <button type="button" onclick="login()">Login</button>
+                <a href="#" class="link" onclick="showRegisterPage()">Don't have an account? Register</a>
+            </form>
+        </div>
+    </div>
+
+    <!-- Registration Page -->
+    <div id="register-page" class="container hidden">
+        <div class="header">
+            <h1>Student Attendance System</h1>
+        </div>
+        <div class="card">
+            <h2 style="margin-bottom: 20px;">Register as Student</h2>
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="reg-fullname">Full Name:</label>
+                    <input type="text" id="reg-fullname" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-student-id">Student ID:</label>
+                    <input type="text" id="reg-student-id" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-email">Email:</label>
+                    <input type="email" id="reg-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-username">Username:</label>
+                    <input type="text" id="reg-username" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-password">Password:</label>
+                    <input type="password" id="reg-password" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-confirm-password">Confirm Password:</label>
+                    <input type="password" id="reg-confirm-password" required>
+                </div>
+                <button type="button" onclick="register()">Register</button>
+                <a href="#" class="link" onclick="showLoginPage()">Already have an account? Login</a>
+            </form>
+        </div>
+    </div>
+
+    <!-- Student Dashboard -->
+    <div id="student-dashboard" class="container hidden">
+        <div class="header">
+            <h1>Student Attendance System</h1>
+            <p>Welcome, <span id="student-name">Student</span></p>
+        </div>
+        <div class="card">
+            <div class="tab-buttons">
+                <button class="tab-button active" onclick="changeTab('attendance-history')">Attendance History</button>
+                <button class="tab-button" onclick="changeTab('profile')">My Profile</button>
+            </div>
+            
+            <div id="attendance-history" class="tab-content active">
+                <h2>My Attendance History</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Subject</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>April 13, 2025</td>
+                            <td>Mathematics</td>
+                            <td class="attendance-present">Present</td>
+                        </tr>
+                        <tr>
+                            <td>April 12, 2025</td>
+                            <td>Science</td>
+                            <td class="attendance-present">Present</td>
+                        </tr>
+                        <tr>
+                            <td>April 11, 2025</td>
+                            <td>History</td>
+                            <td class="attendance-absent">Absent</td>
+                        </tr>
+                        <tr>
+                            <td>April 10, 2025</td>
+                            <td>English</td>
+                            <td class="attendance-present">Present</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div id="profile" class="tab-content">
+                <h2>My Profile</h2>
+                <div class="form-group">
+                    <label>Full Name:</label>
+                    <input type="text" id="profile-fullname" value="John Smith" disabled>
+                </div>
+                <div class="form-group">
+                    <label>Student ID:</label>
+                    <input type="text" id="profile-student-id" value="S12345" disabled>
+                </div>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" id="profile-email" value="john.smith@example.com">
+                </div>
+                <div class="form-group">
+                    <label>Username:</label>
+                    <input type="text" id="profile-username" value="johnsmith" disabled>
+                </div>
+                <div class="form-group">
+                    <label>New Password:</label>
+                    <input type="password" id="profile-password">
+                </div>
+                <div class="form-group">
+                    <label>Confirm New Password:</label>
+                    <input type="password" id="profile-confirm-password">
+                </div>
+                <button type="button" onclick="updateProfile()">Update Profile</button>
+            </div>
+        </div>
+        <button type="button" onclick="logout()" style="background-color: #e74c3c;">Logout</button>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="admin-dashboard" class="container hidden">
+        <div class="header">
+            <h1>Student Attendance System - Admin</h1>
+            <p>Welcome, Administrator</p>
+        </div>
+        <div class="card">
+            <div class="tab-buttons">
+                <button class="tab-button active" onclick="changeAdminTab('mark-attendance')">Mark Attendance</button>
+                <button class="tab-button" onclick="changeAdminTab('view-reports')">View Reports</button>
+                <button class="tab-button" onclick="changeAdminTab('manage-students')">Manage Students</button>
+            </div>
+            
+            <div id="mark-attendance" class="tab-content active">
+                <h2>Mark Attendance</h2>
+                <div class="form-group">
+                    <label for="attendance-date">Date:</label>
+                    <input type="text" id="attendance-date" value="April 13, 2025" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="attendance-subject">Subject:</label>
+                    <select id="attendance-subject">
+                        <option value="mathematics">Mathematics</option>
+                        <option value="science">Science</option>
+                        <option value="history">History</option>
+                        <option value="english">English</option>
+                    </select>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Student Name</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>S12345</td>
+                            <td>John Smith</td>
+                            <td>
+                                <select class="attendance-status">
+                                    <option value="present">Present</option>
+                                    <option value="absent">Absent</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>S12346</td>
+                            <td>Jane Doe</td>
+                            <td>
+                                <select class="attendance-status">
+                                    <option value="present">Present</option>
+                                    <option value="absent">Absent</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>S12347</td>
+                            <td>Bob Johnson</td>
+                            <td>
+                                <select class="attendance-status">
+                                    <option value="present">Present</option>
+                                    <option value="absent">Absent</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>S12348</td>
+                            <td>Alice Williams</td>
+                            <td>
+                                <select class="attendance-status">
+                                    <option value="present">Present</option>
+                                    <option value="absent">Absent</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="button" style="margin-top: 20px;" onclick="saveAttendance()">Save Attendance</button>
+            </div>
+            
+            <div id="view-reports" class="tab-content">
+                <h2>Attendance Reports</h2>
+                <div class="form-group">
+                    <label for="report-type">Report Type:</label>
+                    <select id="report-type">
+                        <option value="daily">Daily Report</option>
+                        <option value="weekly">Weekly Report</option>
+                        <option value="monthly">Monthly Report</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="report-subject">Subject:</label>
+                    <select id="report-subject">
+                        <option value="all">All Subjects</option>
+                        <option value="mathematics">Mathematics</option>
+                        <option value="science">Science</option>
+                        <option value="history">History</option>
+                        <option value="english">English</option>
+                    </select>
+                </div>
+                <button type="button" onclick="generateReport()">Generate Report</button>
+                
+                <div id="report-results" style="margin-top: 20px;">
+                    <h3>Attendance Summary - April 2025</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Student ID</th>
+                                <th>Student Name</th>
+                                <th>Present Days</th>
+                                <th>Absent Days</th>
+                                <th>Attendance %</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>S12345</td>
+                                <td>John Smith</td>
+                                <td>9</td>
+                                <td>1</td>
+                                <td>90%</td>
+                            </tr>
+                            <tr>
+                                <td>S12346</td>
+                                <td>Jane Doe</td>
+                                <td>10</td>
+                                <td>0</td>
+                                <td>100%</td>
+                            </tr>
+                            <tr>
+                                <td>S12347</td>
+                                <td>Bob Johnson</td>
+                                <td>8</td>
+                                <td>2</td>
+                                <td>80%</td>
+                            </tr>
+                            <tr>
+                                <td>S12348</td>
+                                <td>Alice Williams</td>
+                                <td>7</td>
+                                <td>3</td>
+                                <td>70%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div id="manage-students" class="tab-content">
+                <h2>Manage Students</h2>
+                <button type="button" style="margin-bottom: 20px;" onclick="showAddStudentForm()">Add New Student</button>
+                
+                <div id="add-student-form" class="hidden" style="margin-bottom: 20px; padding: 20px; border: 1px solid #ddd; border-radius: 5px;">
+                    <h3>Add New Student</h3>
+                    <div class="form-group">
+                        <label for="new-fullname">Full Name:</label>
+                        <input type="text" id="new-fullname" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-student-id">Student ID:</label>
+                        <input type="text" id="new-student-id" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-email">Email:</label>
+                        <input type="email" id="new-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-username">Username:</label>
+                        <input type="text" id="new-username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-password">Password:</label>
+                        <input type="password" id="new-password" required>
+                    </div>
+                    <button type="button" onclick="addStudent()">Add Student</button>
+                    <button type="button" style="background-color: #e74c3c; margin-left: 10px;" onclick="hideAddStudentForm()">Cancel</button>
+                </div>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th>Username</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>S12345</td>
+                            <td>John Smith</td>
+                            <td>john.smith@example.com</td>
+                            <td>johnsmith</td>
+                            <td>
+                                <button type="button" style="background-color: #2ecc71; padding: 5px 10px;" onclick="editStudent('S12345')">Edit</button>
+                                <button type="button" style="background-color: #e74c3c; padding: 5px 10px; margin-left: 5px;" onclick="deleteStudent('S12345')">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>S12346</td>
+                            <td>Jane Doe</td>
+                            <td>jane.doe@example.com</td>
+                            <td>janedoe</td>
+                            <td>
+                                <button type="button" style="background-color: #2ecc71; padding: 5px 10px;" onclick="editStudent('S12346')">Edit</button>
+                                <button type="button" style="background-color: #e74c3c; padding: 5px 10px; margin-left: 5px;" onclick="deleteStudent('S12346')">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>S12347</td>
+                            <td>Bob Johnson</td>
+                            <td>bob.johnson@example.com</td>
+                            <td>bobjohnson</td>
+                            <td>
+                                <button type="button" style="background-color: #2ecc71; padding: 5px 10px;" onclick="editStudent('S12347')">Edit</button>
+                                <button type="button" style="background-color: #e74c3c; padding: 5px 10px; margin-left: 5px;" onclick="deleteStudent('S12347')">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>S12348</td>
+                            <td>Alice Williams</td>
+                            <td>alice.williams@example.com</td>
+                            <td>alicewilliams</td>
+                            <td>
+                                <button type="button" style="background-color: #2ecc71; padding: 5px 10px;" onclick="editStudent('S12348')">Edit</button>
+                                <button type="button" style="background-color: #e74c3c; padding: 5px 10px; margin-left: 5px;" onclick="deleteStudent('S12348')">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <button type="button" onclick="logout()" style="background-color: #e74c3c;">Logout</button>
+    </div>
+
+    <script>
+        // Page Navigation Functions
+        function showLoginPage() {
+            document.getElementById('login-page').classList.remove('hidden');
+            document.getElementById('register-page').classList.add('hidden');
+            document.getElementById('student-dashboard').classList.add('hidden');
+            document.getElementById('admin-dashboard').classList.add('hidden');
+        }
+        
+        function showRegisterPage() {
+            document.getElementById('login-page').classList.add('hidden');
+            document.getElementById('register-page').classList.remove('hidden');
+            document.getElementById('student-dashboard').classList.add('hidden');
+            document.getElementById('admin-dashboard').classList.add('hidden');
+        }
+        
+        function showStudentDashboard() {
+            document.getElementById('login-page').classList.add('hidden');
+            document.getElementById('register-page').classList.add('hidden');
+            document.getElementById('student-dashboard').classList.remove('hidden');
+            document.getElementById('admin-dashboard').classList.add('hidden');
+        }
+        
+        function showAdminDashboard() {
+            document.getElementById('login-page').classList.add('hidden');
+            document.getElementById('register-page').classList.add('hidden');
+            document.getElementById('student-dashboard').classList.add('hidden');
+            document.getElementById('admin-dashboard').classList.remove('hidden');
+        }
+        
+        // Tab Navigation Functions
+        function changeTab(tabId) {
+            // Hide all tab contents
+            var tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(function(tab) {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            var tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(function(button) {
+                button.classList.remove('active');
+            });
+            
+            // Show selected tab content and mark button as active
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+        
+        function changeAdminTab(tabId) {
+            // Hide all tab contents
+            var tabContents = document.querySelectorAll('#admin-dashboard .tab-content');
+            tabContents.forEach(function(tab) {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            var tabButtons = document.querySelectorAll('#admin-dashboard .tab-button');
+            tabButtons.forEach(function(button) {
+                button.classList.remove('active');
+            });
+            
+            // Show selected tab content and mark button as active
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+        
+        // Authentication Functions
+        function login() {
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+            var userType = document.getElementById('user-type').value;
+            
+            if (username && password) {
+                if (userType === 'admin') {
+                    // In a real system, this would validate against a database
+                    if (username === 'admin' && password === 'admin123') {
+                        showAdminDashboard();
+                    } else {
+                        alert('Invalid admin credentials');
+                    }
+                } else {
+                    // In a real system, this would validate against a database
+                    if (username === 'johnsmith' && password === 'password123') {
+                        document.getElementById('student-name').textContent = 'John Smith';
+                        showStudentDashboard();
+                    } else {
+                        alert('Invalid student credentials');
+                    }
+                }
+            } else {
+                alert('Please fill in all fields');
+            }
+        }
+        
+        function register() {
+            var fullname = document.getElementById('reg-fullname').value;
+            var studentId = document.getElementById('reg-student-id').value;
+            var email = document.getElementById('reg-email').value;
+            var username = document.getElementById('reg-username').value;
+            var password = document.getElementById('reg-password').value;
+            var confirmPassword = document.getElementById('reg-confirm-password').value;
+            
+            if (fullname && studentId && email && username && password && confirmPassword) {
+                if (password === confirmPassword) {
+                    // In a real system, this would save to a database
+                    alert('Registration successful! Please login.');
+                    showLoginPage();
+                } else {
+                    alert('Passwords do not match');
+                }
+            } else {
+                alert('Please fill in all fields');
+            }
+        }
+        
+        function logout() {
+            // Clear form fields
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            
+            showLoginPage();
+        }
+        
+        // Student Functions
+        function updateProfile() {
+            var email = document.getElementById('profile-email').value;
+            var password = document.getElementById('profile-password').value;
+            var confirmPassword = document.getElementById('profile-confirm-password').value;
+            
+            if (email) {
+                if (password) {
+                    if (password === confirmPassword) {
+                        // In a real system, this would update the database
+                        alert('Profile updated successfully');
+                    } else {
+                        alert('Passwords do not match');
+                    }
+                } else {
+                    // Just updating email
+                    alert('Email updated successfully');
+                }
+            } else {
+                alert('Email cannot be empty');
+            }
+        }
+        
+        // Admin Functions
+        function saveAttendance() {
+            // In a real system, this would save to a database
+            alert('Attendance saved successfully!');
+        }
+        
+        function generateReport() {
+            var reportType = document.getElementById('report-type').value;
+            var subject = document.getElementById('report-subject').value;
+            
+            // In a real system, this would query the database
+            alert('Report generated for ' + reportType + ' on ' + subject);
+        }
+        
+        function showAddStudentForm() {
+            document.getElementById('add-student-form').classList.remove('hidden');
+        }
+        
+        function hideAddStudentForm() {
+            document.getElementById('add-student-form').classList.add('hidden');
+        }
+        
+        function addStudent() {
+            var fullname = document.getElementById('new-fullname').value;
+            var studentId = document.getElementById('new-student-id').value;
+            var email = document.getElementById('new-email').value;
+            var username = document.getElementById('new-username').value;
+            var password = document.getElementById('new-password').value;
+            
+            if (fullname && studentId && email && username && password) {
+                // In a real system, this would save to a database
+                alert('Student added successfully!');
+                hideAddStudentForm();
+            } else {
+                alert('Please fill in all fields');
+            }
+        }
+        
+        function editStudent(studentId) {
+            // In a real system, this would load student data from database
+            alert('Editing student with ID: ' + studentId);
+        }
+        
+        function deleteStudent(studentId) {
+            // In a real system, this would remove from database
+            if (confirm('Are you sure you want to delete student with ID: ' + studentId + '?')) {
+                alert('Student deleted successfully!');
+            }
+        }
+    </script>
+</body>
+</html>
