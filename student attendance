@@ -270,7 +270,7 @@
                 <h2>My Profile</h2>
                 <div class="form-group">
                     <label>Full Name:</label>
-                    <input type="text" id="profile-fullname" value="John Smith" disabled>
+                    <input type="text" id="profile-fullname" value="Lalheen Delas alas" disabled>
                 </div>
                 <div class="form-group">
                     <label>Student ID:</label>
@@ -278,11 +278,11 @@
                 </div>
                 <div class="form-group">
                     <label>Email:</label>
-                    <input type="email" id="profile-email" value="john.smith@example.com">
+                    <input type="email" id="profile-email" value="lalheen@gmail.com">
                 </div>
                 <div class="form-group">
                     <label>Username:</label>
-                    <input type="text" id="profile-username" value="johnsmith" disabled>
+                    <input type="text" id="profile-username" value="joshua dako it pusoy" disabled>
                 </div>
                 <div class="form-group">
                     <label>New Password:</label>
@@ -492,7 +492,7 @@
                         <tr>
                             <td>S12345</td>
                             <td>John Smith</td>
-                            <td>john.smith@example.com</td>
+                            <td>john.smith@gmail.com</td>
                             <td>johnsmith</td>
                             <td>
                                 <button type="button" style="background-color: #2ecc71; padding: 5px 10px;" onclick="editStudent('S12345')">Edit</button>
@@ -502,7 +502,7 @@
                         <tr>
                             <td>S12346</td>
                             <td>Jane Doe</td>
-                            <td>jane.doe@example.com</td>
+                            <td>jane.doe@gmail.com</td>
                             <td>janedoe</td>
                             <td>
                                 <button type="button" style="background-color: #2ecc71; padding: 5px 10px;" onclick="editStudent('S12346')">Edit</button>
@@ -512,7 +512,7 @@
                         <tr>
                             <td>S12347</td>
                             <td>Bob Johnson</td>
-                            <td>bob.johnson@example.com</td>
+                            <td>bob.johnson@gmail.com</td>
                             <td>bobjohnson</td>
                             <td>
                                 <button type="button" style="background-color: #2ecc71; padding: 5px 10px;" onclick="editStudent('S12347')">Edit</button>
@@ -522,7 +522,7 @@
                         <tr>
                             <td>S12348</td>
                             <td>Alice Williams</td>
-                            <td>alice.williams@example.com</td>
+                            <td>alice.williams@gmail.com</td>
                             <td>alicewilliams</td>
                             <td>
                                 <button type="button" style="background-color: #2ecc71; padding: 5px 10px;" onclick="editStudent('S12348')">Edit</button>
@@ -612,14 +612,14 @@
             if (username && password) {
                 if (userType === 'admin') {
                     // In a real system, this would validate against a database
-                    if (username === 'admin' && password === 'admin123') {
+                    if (username === 'admin' && password === 'admin') {
                         showAdminDashboard();
                     } else {
                         alert('Invalid admin credentials');
                     }
                 } else {
                     // In a real system, this would validate against a database
-                    if (username === 'johnsmith' && password === 'password123') {
+                    if (username === 'lalheen' && password === '123') {
                         document.getElementById('student-name').textContent = 'John Smith';
                         showStudentDashboard();
                     } else {
