@@ -329,7 +329,7 @@
                     <tbody>
                         <tr>
                             <td>S12345</td>
-                            <td>John Smith</td>
+                            <td>Lalheen Reyes</td>
                             <td>
                                 <select class="attendance-status">
                                     <option value="present">Present</option>
@@ -339,7 +339,7 @@
                         </tr>
                         <tr>
                             <td>S12346</td>
-                            <td>Jane Doe</td>
+                            <td>Angela Gusion</td>
                             <td>
                                 <select class="attendance-status">
                                     <option value="present">Present</option>
@@ -349,7 +349,7 @@
                         </tr>
                         <tr>
                             <td>S12347</td>
-                            <td>Bob Johnson</td>
+                            <td>Odette Johnson</td>
                             <td>
                                 <select class="attendance-status">
                                     <option value="present">Present</option>
@@ -359,7 +359,7 @@
                         </tr>
                         <tr>
                             <td>S12348</td>
-                            <td>Alice Williams</td>
+                            <td>Alice Gou</td>
                             <td>
                                 <select class="attendance-status">
                                     <option value="present">Present</option>
@@ -409,28 +409,28 @@
                         <tbody>
                             <tr>
                                 <td>S12345</td>
-                                <td>John Smith</td>
+                                <td>Lalheen Reyes</td>
                                 <td>9</td>
                                 <td>1</td>
                                 <td>90%</td>
                             </tr>
                             <tr>
                                 <td>S12346</td>
-                                <td>Jane Doe</td>
+                                <td>Angela Gusion</td>
                                 <td>10</td>
                                 <td>0</td>
                                 <td>100%</td>
                             </tr>
                             <tr>
                                 <td>S12347</td>
-                                <td>Bob Johnson</td>
+                                <td>Odette Johnson</td>
                                 <td>8</td>
                                 <td>2</td>
                                 <td>80%</td>
                             </tr>
                             <tr>
                                 <td>S12348</td>
-                                <td>Alice Williams</td>
+                                <td>Alice Gou</td>
                                 <td>7</td>
                                 <td>3</td>
                                 <td>70%</td>
@@ -483,9 +483,9 @@
                     <tbody>
                         <tr>
                             <td>S12345</td>
-                            <td>John Smith</td>
-                            <td>john.smith@gmail.com</td>
-                            <td>johnsmith</td>
+                            <td>Lalheen Reyes</td>
+                            <td>lalheen.reyes@gmail.com</td>
+                            <td>lalheenreyes</td>
                             <td>
                                 <button type="button" style="background-color: #2ecc71; padding: 5px 10px;" onclick="editStudent('S12345')">Edit</button>
                                 <button type="button" style="background-color: #e74c3c; padding: 5px 10px; margin-left: 5px;" onclick="deleteStudent('S12345')">Delete</button>
@@ -493,9 +493,9 @@
                         </tr>
                         <tr>
                             <td>S12346</td>
-                            <td>Jane Doe</td>
-                            <td>jane.doe@gmail.com</td>
-                            <td>janedoe</td>
+                            <td>Angela Gusion</td>
+                            <td>jane.gusion@gmail.com</td>
+                            <td>janegusion</td>
                             <td>
                                 <button type="button" style="background-color: #2ecc71; padding: 5px 10px;" onclick="editStudent('S12346')">Edit</button>
                                 <button type="button" style="background-color: #e74c3c; padding: 5px 10px; margin-left: 5px;" onclick="deleteStudent('S12346')">Delete</button>
@@ -503,9 +503,9 @@
                         </tr>
                         <tr>
                             <td>S12347</td>
-                            <td>Bob Johnson</td>
-                            <td>bob.johnson@gmail.com</td>
-                            <td>bobjohnson</td>
+                            <td>Odette Johnson</td>
+                            <td>dette.johnson@gmail.com</td>
+                            <td>Odettejohnson</td>
                             <td>
                                 <button type="button" style="background-color: #2ecc71; padding: 5px 10px;" onclick="editStudent('S12347')">Edit</button>
                                 <button type="button" style="background-color: #e74c3c; padding: 5px 10px; margin-left: 5px;" onclick="deleteStudent('S12347')">Delete</button>
@@ -513,9 +513,9 @@
                         </tr>
                         <tr>
                             <td>S12348</td>
-                            <td>Alice Williams</td>
-                            <td>alice.williams@gmail.com</td>
-                            <td>alicewilliams</td>
+                            <td>Alice Gou</td>
+                            <td>alice.Gou@gmail.com</td>
+                            <td>alicegou</td>
                             <td>
                                 <button type="button" style="background-color: #2ecc71; padding: 5px 10px;" onclick="editStudent('S12348')">Edit</button>
                                 <button type="button" style="background-color: #e74c3c; padding: 5px 10px; margin-left: 5px;" onclick="deleteStudent('S12348')">Delete</button>
@@ -604,7 +604,7 @@
             if (username && password) {
                 if (userType === 'admin') {
                     // In a real system, this would validate against a database
-                    if (username === 'admin' && password === 'admin') {
+                    if (username === 'admin' && password === '123') {
                         showAdminDashboard();
                     } else {
                         alert('Invalid admin credentials');
