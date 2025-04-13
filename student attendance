@@ -495,7 +495,7 @@
                         <tr>
                             <td>S12346</td>
                             <td>Angela Gusion</td>
-                            <td>jane.gusion@gmail.com</td>
+                            <td>angela.gusion@gmail.com</td>
                             <td>janegusion</td>
                             <td>
                                 <button type="button" style="background-color: #2ecc71; padding: 5px 10px;" onclick="editStudent('S12346')">Edit</button>
